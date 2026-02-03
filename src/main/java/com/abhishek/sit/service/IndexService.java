@@ -1,0 +1,95 @@
+package com.abhishek.sit.service;
+
+import com.abhishek.sit.repository.SitRepository;
+import com.abhishek.sit.util.SitUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.stream.Collectors;
+
+@Service
+public class IndexService {
+
+    private final SitRepository sitRepository;
+    private static final String INDEX_FILE = ".sit/index";
+
+    @Autowired
+    public IndexService(SitRepository sitRepository) {
+        this.sitRepository = sitRepository;
+    }
+
+    public void handleAdd(String pathArg) {
+        if (!sitRepository.isInitialized()) {
+            System.out.println("Not a sit repository.");
+            return;
+        }
+
+        try {
+            Map<String, String> index = loadIndex();
+            List<File> filesToAdd = new ArrayList<>();
+
+            if (pathArg.equals(".")) {
+                filesToAdd = SitUtil.scanDirectory(new File("."), new HashSet<>(Arrays.asList(
+                        ".sit", ".git", "build", "gradle", "target", ".gradle", ".idea")));
+            } else {
+                File file = new File(pathArg);
+                if (!file.exists()) {
+                    System.out.println("pathspec '" + pathArg + "' did not match any files");
+                    return;
+                }
+                if (file.isDirectory()) {
+                    filesToAdd = SitUtil.scanDirectory(file, new HashSet<>(Arrays.asList(
+                            ".sit", ".git", "build", "gradle", "target", ".gradle", ".idea")));
+                } else {
+                    filesToAdd.add(file);
+                }
+            }
+
+            for (File file : filesToAdd) {
+                byte[] content = Files.readAllBytes(file.toPath());
+                String hash = SitUtil.getSha1(content);
+                String relPath = Paths.get(".").toUri().relativize(file.toURI()).getPath();
+
+                // Save object to DB
+                sitRepository.saveObject(hash, content);
+
+                // Update index
+                index.put(relPath, hash);
+            }
+
+            saveIndex(index);
+            // System.out.println("Added " + filesToAdd.size() + " files to index."); // Git
+            // is silent usually
+
+        } catch (IOException e) {
+            System.err.println("Error adding to index: " + e.getMessage());
+        }
+    }
+
+    public Map<String, String> loadIndex() throws IOException {
+        Map<String, String> index = new TreeMap<>();
+        File file = new File(INDEX_FILE);
+        if (file.exists()) {
+            List<String> lines = Files.readAllLines(file.toPath());
+            for (String line : lines) {
+                String[] parts = line.split(":", 2);
+                if (parts.length == 2) {
+                    index.put(parts[0], parts[1]);
+                }
+            }
+        }
+        return index;
+    }
+
+    public void saveIndex(Map<String, String> index) throws IOException {
+        List<String> lines = index.entrySet().stream()
+                .map(e -> e.getKey() + ":" + e.getValue())
+                .collect(Collectors.toList());
+        Files.write(Paths.get(INDEX_FILE), lines);
+    }
+}

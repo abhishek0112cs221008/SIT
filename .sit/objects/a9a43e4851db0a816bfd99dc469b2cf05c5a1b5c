@@ -1,0 +1,73 @@
+package com.abhishek.sit;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CommandService {
+
+    private final RepositoryInitService repositoryInitService;
+    private final StatusService statusService;
+    private final CommitService commitService;
+
+    @Autowired
+    public CommandService(RepositoryInitService repositoryInitService,
+            StatusService statusService,
+            CommitService commitService) {
+        this.repositoryInitService = repositoryInitService;
+        this.statusService = statusService;
+        this.commitService = commitService;
+    }
+
+    public void handleCommand(String[] args) {
+        if (args.length == 0) {
+            printHelp();
+            return;
+        }
+
+        String command = args[0];
+
+        switch (command) {
+            case "help":
+                printHelp();
+                break;
+            case "version":
+                printVersion();
+                break;
+            case "init":
+                repositoryInitService.init();
+                break;
+            case "status":
+                statusService.handleStatus();
+                break;
+            case "commit":
+                if (args.length < 2) {
+                    System.out.println("Error: Commit message required. Usage: sit commit <message>");
+                } else {
+                    commitService.handleCommit(args[1]);
+                }
+                break;
+            default:
+                System.out.println("Unknown command: " + command);
+                printHelp();
+                break;
+        }
+    }
+
+    private void printHelp() {
+        System.out.println("Sit CLI - Version 0.0.1+SNAPSHOT");
+        System.out.println("Usage: sit <command> [<args>]");
+        System.out.println();
+        System.out.println("Available commands:");
+        System.out.println("  help       Show this help message");
+        System.out.println("  version    Show version information");
+        System.out.println("  init       Initialize a new Sit repository");
+        System.out.println("  status     Show the working tree status");
+        System.out.println("  commit     Record changes to the repository");
+        System.out.println();
+    }
+
+    private void printVersion() {
+        System.out.println("sit version 0.0.1-SNAPSHOT");
+    }
+}

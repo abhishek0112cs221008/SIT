@@ -1,0 +1,26 @@
+package com.abhishek.sit;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SitApplication implements CommandLineRunner {
+
+    private final CommandService commandService;
+
+    @Autowired
+    public SitApplication(CommandService commandService) {
+        this.commandService = commandService;
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(SitApplication.class, args);
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        commandService.handleCommand(args);
+    }
+}

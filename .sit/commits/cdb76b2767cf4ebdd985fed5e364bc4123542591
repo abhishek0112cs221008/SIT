@@ -1,0 +1,31 @@
+parent: 42b5d5a99e60468f95b115d7ebc1b114386f4501
+author: User <user@example.com>
+date: 2026-02-03T22:46:51.571770
+message: Added staging area and flags
+
+.gitattributes:2516f896848f33a557f441bcd1325279af611604
+.gitignore:c32218a75ca0a7ae98923d9aeaf0819279088e68
+HELP.md:1b3f53b2ef419b5469e181518ab17aab51ed7ea1
+SIT.iml:cd1a7cd9461c1588bcd7cc294f5fc3f3d10e29d2
+build.gradle:0becf3f438ee4ad0edd5ce1908b9bcbf317ea836
+create_dist.bat:05d86cc0a2e5a889640600f0d354bde505fb29bb
+dist/sit.bat:d484f5422d2ec5159a366874afa4738ab3f62402
+dist/sit.jar:84d39309351ce47d1e84aabc75c1196bebda13f1
+gradlew:db4497934951ffdd9f8ff35551b6d6537b79d4c1
+gradlew.bat:483bdee17a45112d5b6521203afbf43073a8d4f6
+pom.xml:497271988cf29dbc79ebe05f2a3f8b93ac63f1da
+settings.gradle:9e49f9e650f10699332252385b2d5b64555713c0
+sit.bat:6afacba529c2b2899ca9e7ee9b9a67d8c442768c
+src/main/java/com/abhishek/sit/CommandService.java:590c2d0cfaf7013825789bbcc5f5cd754af56ce4
+src/main/java/com/abhishek/sit/CommitService.java:92b5282c6224c3547f4220e1077bf885046ec0bb
+src/main/java/com/abhishek/sit/IndexService.java:1deb089134a59f5ac70a231369e188d01f0642c6
+src/main/java/com/abhishek/sit/LogService.java:edb812524b67f49f5d50c8480bf6b3d049ee9fd6
+src/main/java/com/abhishek/sit/RepositoryInitService.java:5dbcf7f9c3ab6ed6669644773430ad46c4da0597
+src/main/java/com/abhishek/sit/SitApplication.java:4d7627a9d92713b07bb007961054fb2074a3a42e
+src/main/java/com/abhishek/sit/SitRepository.java:add5d6e4b756053ea7d91e6dd51816bf11ccbe6b
+src/main/java/com/abhishek/sit/SitUtil.java:b483ad91f2eac6af0121d116612b47fbb7329919
+src/main/java/com/abhishek/sit/StatusService.java:dabb29a421b98d90936d5662cbe17f7737e52c0f
+src/main/resources/application.properties:677d8e56472112cecaba9b548717fd7ddd358f5d
+src/test/java/com/abhishek/sit/SitApplicationTests.java:36828690c38516704722cf2a1929074d558cee7e
+start_sit.bat:642ad44ec1bc01fb4a5314e6f730b22be4f681e2
+status_test.txt:f3c8882025292a2e9a9d5bac851aae076a50e852

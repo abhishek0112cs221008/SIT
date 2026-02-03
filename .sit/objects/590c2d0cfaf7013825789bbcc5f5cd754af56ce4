@@ -1,0 +1,99 @@
+package com.abhishek.sit;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CommandService {
+
+    private final RepositoryInitService repositoryInitService;
+    private final StatusService statusService;
+    private final CommitService commitService;
+    private final LogService logService;
+    private final IndexService indexService;
+
+    @Autowired
+    public CommandService(RepositoryInitService repositoryInitService,
+            StatusService statusService,
+            CommitService commitService,
+            LogService logService,
+            IndexService indexService) {
+        this.repositoryInitService = repositoryInitService;
+        this.statusService = statusService;
+        this.commitService = commitService;
+        this.logService = logService;
+        this.indexService = indexService;
+    }
+
+    public void handleCommand(String[] args) {
+        if (args.length == 0) {
+            return;
+        }
+
+        String command = args[0];
+
+        switch (command) {
+            case "help":
+                printHelp();
+                break;
+            case "version":
+                printVersion();
+                break;
+            case "init":
+                repositoryInitService.init();
+                break;
+            case "status":
+                statusService.handleStatus();
+                break;
+            case "add":
+                if (args.length < 2) {
+                    System.out.println("Nothing specified, nothing added.");
+                } else {
+                    indexService.handleAdd(args[1]);
+                }
+                break;
+            case "log":
+                // Basic flag support
+                boolean oneline = args.length > 1 && "--oneline".equals(args[1]);
+                logService.handleLog(oneline);
+                break;
+            case "commit":
+                String message = null;
+                if (args.length >= 3 && "-m".equals(args[1])) {
+                    message = args[2];
+                } else if (args.length >= 2) {
+                    message = args[1]; // Fallback to old style
+                }
+
+                if (message == null) {
+                    System.out.println("Error: Commit message required. Usage: sit commit -m <message>");
+                } else {
+                    commitService.handleCommit(message);
+                }
+                break;
+            default:
+                System.out.println("Unknown command: " + command);
+                printHelp();
+                break;
+        }
+    }
+
+    private void printHelp() {
+        System.out.println("Sit CLI - Version 0.0.1+SNAPSHOT");
+        System.out.println("Usage: sit <command> [<args>]");
+        System.out.println();
+        System.out.println("Available commands:");
+        System.out.println("  help       Show this help message");
+        System.out.println("  version    Show version information");
+        System.out.println("  init       Initialize a new Sit repository");
+        System.out.println("  add        Add file contents to the index");
+        System.out.println("  status     Show the working tree status");
+        System.out.println("  commit     Record changes to the repository");
+        System.out.println("  log        Show commit history");
+        System.out.println();
+    }
+
+    private void printVersion() {
+        System.out.println("sit version 0.0.1-SNAPSHOT");
+    }
+}

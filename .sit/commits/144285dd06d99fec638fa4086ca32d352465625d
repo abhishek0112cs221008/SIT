@@ -1,0 +1,45 @@
+parent: 72a2413421875240f7beabd5d9eae1303342238d
+author: User <user@example.com>
+date: 2026-02-03T22:16:08.508182900
+message: My first commit
+
+.gitattributes 2516f896848f33a557f441bcd1325279af611604
+.gitignore c32218a75ca0a7ae98923d9aeaf0819279088e68
+.gradle/9.3.0/checksums/checksums.lock 8b3720a9a3efdd8f8334a83a2b7db43965021a0f
+.gradle/9.3.0/checksums/md5-checksums.bin fd9a0b712c277ac52109411ceedbd90d1d252447
+.gradle/9.3.0/checksums/sha1-checksums.bin 3f442a49e208dfba14fa6183f0e0baf49aa78be7
+.gradle/9.3.0/executionHistory/executionHistory.bin 2c0b6b2270b617861ee7645949c0fd88634d0633
+.gradle/9.3.0/executionHistory/executionHistory.lock c528bffed1951b5a5c639c202a1f94e506cf98cc
+.gradle/9.3.0/fileChanges/last-build.bin 5ba93c9db0cff93f52b521d7420e43f6eda2784f
+.gradle/9.3.0/fileHashes/fileHashes.bin efcbd0875df8306e9cfb5cc2e207290f80b15941
+.gradle/9.3.0/fileHashes/fileHashes.lock 56f691d3c882730ffcaeabdf26e5dc6fcb062231
+.gradle/9.3.0/fileHashes/resourceHashesCache.bin 3e51835deb81f1f18365199c4e93973be06be435
+.gradle/9.3.0/gc.properties da39a3ee5e6b4b0d3255bfef95601890afd80709
+.gradle/buildOutputCleanup/buildOutputCleanup.lock 6e9399a7fa33b922f4b63752dbf38614be79c4d5
+.gradle/buildOutputCleanup/cache.properties 5cc6f77b53ebe7c956247e2065654e2e3583e5bb
+.gradle/buildOutputCleanup/outputFiles.bin e7e1d1828c33746c1d8183ae0512b3925c720a25
+.gradle/file-system.probe e9e2978ef6971a22b4cf07a657a2793b45c2d449
+.gradle/vcs-1/gc.properties da39a3ee5e6b4b0d3255bfef95601890afd80709
+.idea/.gitignore 0b3f1d99b293ee1498345ac4c6cb8ad3b1de6651
+.idea/compiler.xml fa42af8e84b8f93e5211989c6cac138f1d6a8d3a
+.idea/gradle.xml caa422db70430169b7cd5891fb03982ab2b3f2a4
+.idea/misc.xml 602502e9550c04ee016f98dfe68c9798c25c69d5
+.idea/workspace.xml 344005504b1bcc2c00613e83e9fa01a9b716ddb8
+HELP.md 1b3f53b2ef419b5469e181518ab17aab51ed7ea1
+SIT.iml cd1a7cd9461c1588bcd7cc294f5fc3f3d10e29d2
+build.gradle 0becf3f438ee4ad0edd5ce1908b9bcbf317ea836
+gradlew db4497934951ffdd9f8ff35551b6d6537b79d4c1
+gradlew.bat 483bdee17a45112d5b6521203afbf43073a8d4f6
+pom.xml 497271988cf29dbc79ebe05f2a3f8b93ac63f1da
+settings.gradle 9e49f9e650f10699332252385b2d5b64555713c0
+sit.bat 6afacba529c2b2899ca9e7ee9b9a67d8c442768c
+src/main/java/com/abhishek/sit/CommandService.java a9a43e4851db0a816bfd99dc469b2cf05c5a1b5c
+src/main/java/com/abhishek/sit/CommitService.java df7d71bbcd14069d6952c4c8614c58339e113e37
+src/main/java/com/abhishek/sit/RepositoryInitService.java 5dbcf7f9c3ab6ed6669644773430ad46c4da0597
+src/main/java/com/abhishek/sit/SitApplication.java f011491716a63b75f033215e1834b8de0e9728c0
+src/main/java/com/abhishek/sit/SitRepository.java add5d6e4b756053ea7d91e6dd51816bf11ccbe6b
+src/main/java/com/abhishek/sit/SitUtil.java b483ad91f2eac6af0121d116612b47fbb7329919
+src/main/java/com/abhishek/sit/StatusService.java bc95451ab74e80948dec0295d89603e1a141ec70
+src/main/resources/application.properties 677d8e56472112cecaba9b548717fd7ddd358f5d
+src/test/java/com/abhishek/sit/SitApplicationTests.java 36828690c38516704722cf2a1929074d558cee7e
+status_test.txt f3c8882025292a2e9a9d5bac851aae076a50e852

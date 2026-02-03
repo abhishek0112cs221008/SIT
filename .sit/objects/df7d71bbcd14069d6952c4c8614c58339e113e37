@@ -1,0 +1,80 @@
+package com.abhishek.sit;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.*;
+
+@Service
+public class CommitService {
+
+    private final SitRepository sitRepository;
+
+    @Autowired
+    public CommitService(SitRepository sitRepository) {
+        this.sitRepository = sitRepository;
+    }
+
+    public void handleCommit(String message) {
+        if (!sitRepository.isInitialized()) {
+            System.out.println("Not a sit repository.");
+            return;
+        }
+
+        try {
+            // 1. Scan and Save Objects (Blobs)
+            List<File> files = SitUtil.scanDirectory(new File("."),
+                    new HashSet<>(Arrays.asList(".sit", ".git", "build", "gradle", "target")));
+            Map<String, String> fileHashes = new TreeMap<>(); // Sorted path -> hash
+
+            for (File file : files) {
+                byte[] content = Files.readAllBytes(file.toPath());
+                String hash = SitUtil.getSha1(content);
+                sitRepository.saveObject(hash, content);
+                fileHashes.put(getRelativePath(file), hash);
+            }
+
+            // 2. Create Commit Content
+            String parentId = sitRepository.getHeadCommitId();
+            StringBuilder commitContent = new StringBuilder();
+            if (parentId != null) {
+                commitContent.append("parent: ").append(parentId).append("\n");
+            }
+            commitContent.append("author: User <user@example.com>\n");
+            commitContent.append("date: ").append(LocalDateTime.now()).append("\n");
+            commitContent.append("message: ").append(message).append("\n");
+            commitContent.append("\n"); // Separator
+
+            for (Map.Entry<String, String> entry : fileHashes.entrySet()) {
+                commitContent.append(entry.getKey()).append(" ").append(entry.getValue()).append("\n");
+            }
+
+            // 3. Save Commit
+            String commitData = commitContent.toString();
+            String commitHash = SitUtil.getSha1(commitData.getBytes());
+            sitRepository.saveCommit(commitHash, commitData);
+
+            // 4. Update HEAD
+            sitRepository.updateHead(commitHash);
+
+            System.out.println("[" + (parentId == null ? "root-commit" : "main") + " " + commitHash.substring(0, 7)
+                    + "] " + message);
+
+        } catch (IOException e) {
+            System.err.println("Error creating commit: " + e.getMessage());
+        }
+    }
+
+    private String getRelativePath(File file) {
+        String path = file.getPath().replace("\\", "/");
+        if (path.startsWith("./")) {
+            return path.substring(2);
+        }
+        return path;
+    }
+}

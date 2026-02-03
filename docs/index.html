@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sit CLI - Documentation</title>
+
+    <!-- Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css">
+
+    <style>
+        :root {
+            /* Light Theme (Default) */
+            --bg: #ffffff;
+            --sidebar-bg: #fbfbfd;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --border: #d2d2d7;
+            --code-bg: #f5f5f7;
+            --code-text: #1d1d1f;
+            --accent: #000000;
+            --nav-hover: #e8e8ed;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme (Apple Style) */
+            --bg: #000000;
+            --sidebar-bg: #161617;
+            --text-primary: #f5f5f7;
+            --text-secondary: #86868b;
+            --border: #424245;
+            --code-bg: #1d1d1f;
+            --code-text: #f5f5f7;
+            --accent: #ffffff;
+            --nav-hover: #2c2c2e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Hide Scrollbar globally but allow scrolling */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        * {
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.5;
+            font-size: 16px;
+            display: flex;
+            /* Changed to flex to handle off-canvas easily */
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        aside {
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border);
+            height: 100vh;
+            width: 280px;
+            position: fixed;
+            /* Fixed position */
+            top: 0;
+            left: 0;
+            padding: 40px 30px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+            margin-bottom: 40px;
+            display: block;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-group {
+            margin-bottom: 30px;
+        }
+
+        .nav-header {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+
+        .nav-link {
+            display: block;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 12px;
+            margin-left: -12px;
+            border-radius: 8px;
+            transition: background 0.2s;
+            opacity: 0.8;
+        }
+
+        .nav-link:hover {
+            opacity: 1;
+            background: var(--nav-hover);
+        }
+
+        .nav-link.active {
+            font-weight: 600;
+            opacity: 1;
+            color: var(--text-primary);
+            background: var(--nav-hover);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            margin-left: -12px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 8px;
+        }
+
+        .theme-toggle:hover {
+            color: var(--text-primary);
+            background: var(--nav-hover);
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            padding: 60px 80px;
+            margin-left: 280px;
+            /* Offset for sidebar */
+            max-width: 1200px;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+            background: var(--sidebar-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px;
+            cursor: pointer;
+            color: var(--text-primary);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 900;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        h1 {
+            font-size: 44px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-top: 60px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+        }
+
+        h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        p {
+            margin-bottom: 24px;
+            color: var(--text-primary);
+            opacity: 0.85;
+            font-weight: 400;
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        .intro {
+            font-size: 21px;
+            color: var(--text-secondary);
+            font-weight: 300;
+            line-height: 1.5;
+            max-width: 700px;
+            opacity: 1;
+        }
+
+        .cmd-section {
+            margin-bottom: 40px;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            border-radius: 12px;
+            padding: 20px 24px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: var(--code-text);
+        }
+
+        .cmd {
+            font-weight: 600;
+        }
+
+        .arg {
+            opacity: 0.7;
+        }
+
+        .comment {
+            color: var(--text-secondary);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        footer {
+            margin-top: 100px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            aside {
+                transform: translateX(-100%);
+                /* Hide sidebar */
+            }
+
+            main {
+                margin-left: 0;
+                padding: 40px 20px;
+                width: 100%;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            /* Open State */
+            .sidebar-open aside {
+                transform: translateX(0);
+                box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+            }
+
+            .sidebar-open .overlay {
+                display: block;
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Overlay for Mobile -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Mobile Menu Button -->
+    <button class="menu-toggle" id="menuBtn">
+        <i class="ri-menu-line" style="font-size: 24px;"></i>
+    </button>
+
+    <!-- Persistent Sidebar -->
+    <aside>
+        <a href="#" class="brand">Sit CLI</a>
+
+        <div class="nav-group">
+            <div class="nav-header">Overview</div>
+            <a href="#intro" class="nav-link active">Introduction</a>
+            <a href="#install" class="nav-link">Installation</a>
+        </div>
+
+        <div class="nav-group">
+            <div class="nav-header">Core Commands</div>
+            <a href="#init" class="nav-link">sit init</a>
+            <a href="#status" class="nav-link">sit status</a>
+            <a href="#add" class="nav-link">sit add</a>
+            <a href="#commit" class="nav-link">sit commit</a>
+            <a href="#log" class="nav-link">sit log</a>
+        </div>
+
+        <div class="nav-group">
+            <div class="nav-header">Branching</div>
+            <a href="#branch" class="nav-link">sit branch</a>
+            <a href="#checkout" class="nav-link">sit checkout</a>
+            <a href="#merge" class="nav-link">sit merge</a>
+        </div>
+
+        <div class="nav-group">
+            <div class="nav-header">Advanced</div>
+            <a href="#diff" class="nav-link">sit diff</a>
+            <a href="#architecture" class="nav-link">Architecture</a>
+        </div>
+
+        <div class="theme-toggle" id="themeBtn">
+            <i class="ri-moon-line"></i> <span>Dark Mode</span>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main>
+        <section id="intro">
+            <h1>Sit CLI.</h1>
+            <p class="intro">Simplicity is the ultimate sophistication. A version control system built for clarity and
+                speed.</p>
+        </section>
+
+        <section id="install">
+            <h2>Installation</h2>
+            <p>Sit is a portable Java application. It requires no installation wizards, just simple path configuration.
+            </p>
+            <pre><code><span class="comment"># 1. Download the 'dist' folder</span>
+<span class="comment"># 2. Add to PATH</span>
+<span class="cmd">sit</span> <span class="arg">version</span></code></pre>
+        </section>
+
+        <section id="commands">
+            <h2>Core Workflow</h2>
+            <p>The essence of version control in four commands.</p>
+
+            <div id="init" class="cmd-section">
+                <h3>Initialize</h3>
+                <p>Start tracking a new project.</p>
+                <pre><code><span class="cmd">sit</span> <span class="arg">init</span></code></pre>
+            </div>
+
+            <div id="status" class="cmd-section">
+                <h3>Status</h3>
+                <p>See the state of your working directory.</p>
+                <pre><code><span class="cmd">sit</span> <span class="arg">status</span></code></pre>
+            </div>
+
+            <div id="add" class="cmd-section">
+                <h3>Stage</h3>
+                <p>Prepare files for the snapshot.</p>
+                <pre><code><span class="cmd">sit</span> <span class="arg">add</span> <span class="arg">.</span></code></pre>
+            </div>
+
+            <div id="commit" class="cmd-section">
+                <h3>Commit</h3>
+                <p>Save the snapshot to history.</p>
+                <pre><code><span class="cmd">sit</span> <span class="arg">commit</span> <span class="arg">-m "Initial commit"</span></code></pre>
+            </div>
+        </section>
+
+        <section id="branching">
+            <h2>Branching & Merging</h2>
+            <p>Non-linear development made human-readable.</p>
+
+            <div id="branch" class="cmd-section">
+                <h3>Branch</h3>
+                <p>Create separate contexts for features.</p>
+                <pre><code><span class="cmd">sit</span> <span class="arg">branch</span> <span class="arg">feature-login</span></code></pre>
+            </div>
+
+            <div id="checkout" class="cmd-section">
+                <h3>Checkout</h3>
+                <p>Switch contexts instantly.</p>
+                <pre><code><span class="cmd">sit</span> <span class="arg">checkout</span> <span class="arg">feature-login</span></code></pre>
+            </div>
+
+            <div id="merge" class="cmd-section">
+                <h3>Merge</h3>
+                <p>Combine histories using Fast-Forward.</p>
+                <pre><code><span class="cmd">sit</span> <span class="arg">checkout</span> <span class="arg">main</span>
+<span class="cmd">sit</span> <span class="arg">merge</span> <span class="arg">feature-login</span></code></pre>
+            </div>
+        </section>
+
+        <section id="diff">
+            <h2>Deep Inspection</h2>
+            <p>Understanding changes line-by-line.</p>
+            <pre><code><span class="cmd">sit</span> <span class="arg">diff</span></code></pre>
+        </section>
+
+        <section id="architecture">
+            <h2>Architecture</h2>
+            <p>Built on a clean Controller-Service-Repository pattern in Java.</p>
+            <p>Data is stored in <code>.sit/objects</code> using SHA-1 content addressing, similar to industry
+                standards.</p>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 Sit CLI. Designed with ❤️ by Abhishek.</p>
+        </footer>
+    </main>
+
+    <script>
+        // Theme Logic
+        const themeBtn = document.getElementById('themeBtn');
+        const icon = themeBtn.querySelector('i');
+        const text = themeBtn.querySelector('span');
+        const html = document.documentElement;
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        updateUI(savedTheme);
+
+        themeBtn.addEventListener('click', () => {
+            const current = html.getAttribute('data-theme');
+            const newTheme = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateUI(newTheme);
+        });
+
+        function updateUI(theme) {
+            if (theme === 'dark') {
+                icon.className = 'ri-sun-line';
+                text.textContent = 'Light Mode';
+            } else {
+                icon.className = 'ri-moon-line';
+                text.textContent = 'Dark Mode';
+            }
+        }
+
+        // Mobile Menu Logic
+        const menuBtn = document.getElementById('menuBtn');
+        const overlay = document.getElementById('overlay');
+        const body = document.body;
+
+        function toggleMenu() {
+            body.classList.toggle('sidebar-open');
+        }
+
+        if (menuBtn) {
+            menuBtn.addEventListener('click', toggleMenu);
+            overlay.addEventListener('click', toggleMenu);
+        }
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                body.classList.remove('sidebar-open');
+            });
+        });
+
+        // Navigation Highlight
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    const navLink = document.querySelector(`.nav-link[href="#${id}"]`);
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    if (navLink) navLink.classList.add('active');
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('section, .cmd-section').forEach(s => observer.observe(s));
+    </script>
+</body>
+
+</html>
