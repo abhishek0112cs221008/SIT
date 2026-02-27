@@ -373,11 +373,40 @@
 
         <section id="install">
             <h2>Installation</h2>
-            <p>Sit is a portable Java application. It requires no installation wizards, just simple path configuration.
+            <p>Sit is a portable Java application. No installation wizard needed — just download, place, and add to
+                PATH.</p>
+
+            <h3>Prerequisites</h3>
+            <p>Java 17 or higher must be installed on your system.</p>
+            <pre><code><span class="comment"># Check your Java version first</span>
+<span class="cmd">java</span> <span class="arg">--version</span></code></pre>
+
+            <h3>Step 1 — Download</h3>
+            <p>Download <code>sit.jar</code> and <code>sit.bat</code> from the latest GitHub Release:</p>
+            <p>
+                <a href="https://github.com/abhishek0112cs221008/SIT/releases/latest" target="_blank"
+                    style="display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--bg);padding:12px 24px;border-radius:10px;text-decoration:none;font-weight:600;font-size:15px;font-family:'Inter',sans-serif;transition:opacity 0.2s;"
+                    onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">
+                    ↓ &nbsp;Download Latest Release
+                </a>
             </p>
-            <pre><code><span class="comment"># 1. Download the 'dist' folder</span>
-<span class="comment"># 2. Add to PATH</span>
-<span class="cmd">sit</span> <span class="arg">version</span></code></pre>
+
+            <h3>Step 2 — Place the files</h3>
+            <p>Create a folder (e.g. <code>C:\sit\</code>) and put both files inside it. They must stay together.</p>
+            <pre><code>C:\sit\
+  ├── sit.jar
+  └── sit.bat</code></pre>
+
+            <h3>Step 3 — Add to PATH</h3>
+            <p>So you can run <code>sit</code> from any terminal:</p>
+            <pre><code><span class="comment"># Search "Environment Variables" in the Start Menu</span>
+<span class="comment"># System Variables → Path → Edit → New</span>
+<span class="comment"># Add: C:\sit\</span>
+<span class="comment"># Click OK on all dialogs, then open a NEW terminal</span></code></pre>
+
+            <h3>Step 4 — Verify</h3>
+            <pre><code><span class="cmd">sit</span> <span class="arg">version</span></code></pre>
+            <p>If you see a version output, you're all set.</p>
         </section>
 
         <section id="commands">
